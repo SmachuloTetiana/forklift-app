@@ -5,9 +5,10 @@ export default class Registration extends Component {
 
     constructor(props) {
         super(props);
-        this.state= { 
+        this.state = { 
             email: '',
-            password: ''
+            password: '',
+            error: ''
         } 
 
         this.onChange = this.onChange.bind(this);
@@ -18,7 +19,8 @@ export default class Registration extends Component {
         this.setState({ [event.target.name]: event.target.value });
     }
 
-    onRegisterBtn() {
+    onRegisterBtn(event) {
+        event.preventDefault();
         const { email, password } = this.state;
         firebaseApp
             .auth()
@@ -26,25 +28,28 @@ export default class Registration extends Component {
             .then(user => {
                 console.log(user)
             })
-            .catch(error => {
-                console.log(error.message);
+            .catch(e => {
+                this.setState({ error: e.message })
+                console.log(e.message);
             })
     }
 
     render() {
+        const { email, password } = this.state;
         return (
             <div className="row">
                 <div className="col">
-                    <h1>Registration page</h1>
-                    <form>
+                    <h1 className="text-center">Registration page</h1>
+                    <form onSubmit={this.onRegisterBtn}>
                         <div className="form-group">
                             <label htmlFor="email">Email:</label>
                             <input 
                                 type="text" 
                                 name="email" 
                                 className="form-control"
+                                value={email}
                                 onChange={this.onChange}
-                                plaeholder="Email"/>
+                                placeholder="Email" />
                         </div>
                         <div className="form-group">
                             <label htmlFor="password">Password</label>
@@ -52,13 +57,14 @@ export default class Registration extends Component {
                                 type="password" 
                                 name="password" 
                                 className="form-control"
+                                value={password}
                                 onChange={this.onChange}
-                                plaeholder="Password"/>
+                                placeholder="Password" />
                         </div>
+                        <p className="error-message">{this.state.error}</p>
                         <button 
-                            type="button" 
-                            className="btn btn-primary"
-                            onClick={this.onRegisterBtn()}>Register</button>
+                            type="submit" 
+                            className="btn btn-primary">Register</button>
                     </form>
                 </div>
             </div>

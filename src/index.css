@@ -12,6 +12,6 @@ code {
     monospace;
 }
 
-.active {
+.error-message {
   color: #f00;
 }

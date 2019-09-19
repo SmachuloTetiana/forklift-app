@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { firebaseApp } from './components/Firebase';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
@@ -13,10 +12,6 @@ import App from './App';
 import Registration from './components/Registration'
 import Login from './components/Login';
 import List from './components/List';
-
-firebaseApp.auth().onAuthStateChanged(user => {
-    user ? console.log(`user has signed in ${user}`) : console.log('user has signed out')
-})
 
 ReactDOM.render(
     <Router>
