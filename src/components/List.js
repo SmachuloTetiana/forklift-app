@@ -8,7 +8,8 @@ export default class List extends Component {
         this.state = {
             title: '',
             description: '',
-            items: []
+            items: [],
+            error: ''
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -24,14 +25,21 @@ export default class List extends Component {
     handleSubmit(e) {
         e.preventDefault();
         const itemsRef = firebaseApp.database().ref('items');
-        itemsRef.push({
-            title: this.state.title,
-            description: this.state.description
-        });
-        this.setState({
-            title: '',
-            description: ''
-        });
+        let { title, description } = this.state;
+        if(title.length > 0 && description.length > 0) {
+            itemsRef.push({
+                title: this.state.title,
+                description: this.state.description
+            });
+            this.setState({
+                title: '',
+                description: ''
+            });
+        } else {
+            this.setState({
+                error: 'is invalid'
+            })
+        }
     }
 
     componentDidMount() {
@@ -53,7 +61,7 @@ export default class List extends Component {
     }
 
     render() {
-        const { title, description } = this.state;
+        const { title, description, items } = this.state;
         return (
             <div className="row">
                 <div className="col">
@@ -71,6 +79,7 @@ export default class List extends Component {
                             onChange={this.handleChange} 
                             className="form-control"
                             placeholder="Description"></textarea>
+                        <p>{this.state.error}</p>
                         <button 
                             type="submit" 
                             className="btn btn-primary">Add Product</button>
@@ -78,14 +87,14 @@ export default class List extends Component {
 
                     <div className="items-list">
                         <ul>
-                        {this.state.items.map((item) => {
-                            return (
-                            <li key={item.id}>
-                                <h3>{item.title}</h3>
-                                <p>{item.description}</p>
-                            </li>
-                            )
-                        })}
+                            {items.map((item) => {
+                                return (
+                                    <li key={item.id}>
+                                        <h3>{item.title}</h3>
+                                        <p>{item.description}</p>
+                                    </li>
+                                )
+                            })}
                         </ul>
                     </div>
                 </div>

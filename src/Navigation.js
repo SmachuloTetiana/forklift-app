@@ -28,6 +28,9 @@ export default class Navigation extends Component {
                             <NavLink activeClassName="active" className="nav-link" to="/login">Login</NavLink>
                         </li>
                         <li className="nav-item">
+                            <NavLink activeClassName="active" className="nav-link" to="/profile">Profile</NavLink>
+                        </li>
+                        <li className="nav-item">
                             <NavLink activeClassName="active" className="nav-link" to="/list">List</NavLink>
                         </li>
                     </ul>
