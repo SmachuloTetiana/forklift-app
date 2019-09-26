@@ -9,10 +9,17 @@ import { Route, BrowserRouter as Router } from 'react-router-dom';
 // Names components
 import Navigation from './Navigation';
 import App from './App';
-import Registration from './components/Registration'
-import Login from './components/Login';
+import { Registration } from './components/Registration';
 import { Profile } from './components/Profile';
-import List from './components/List';
+import { List } from './components/List';
+
+export const UserProps = {
+    name: '',
+    email: '',
+    password: '',
+    error: '',
+    isLoggedIn: false
+}
 
 ReactDOM.render(
     <Router>
@@ -21,9 +28,8 @@ ReactDOM.render(
 
             <Route exact path='/' component={App} />
             <Route path='/registration' component={Registration} />
-            <Route path='/login' component={Login} />
             <Route path="/profile" component={Profile} />
-            <Route path='/list' component={List} />
+            <Route path="/list" component={List} />
         </div>
     </Router>,
     document.getElementById('root')

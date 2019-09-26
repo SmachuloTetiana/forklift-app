@@ -1,73 +1,95 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { firebaseApp } from './Firebase';
+import { UserProps } from "../index";
 
-export default class Registration extends Component {
+export const Registration = () => {
 
-    constructor(props) {
-        super(props);
-        this.state = { 
-            email: '',
-            password: '',
-            error: ''
-        } 
+    const [ user, setUser ] = useState({UserProps});
 
-        this.onChange = this.onChange.bind(this);
-        this.onRegisterBtn = this.onRegisterBtn.bind(this);
+    const handleChange = (event) => {
+        setUser({
+            ...user,
+            [event.target.name]: event.target.value
+        })
     }
 
-    onChange(event) {
-        this.setState({ [event.target.name]: event.target.value });
-    }
-
-    onRegisterBtn(event) {
+    const signInBtn = (event) => {
         event.preventDefault();
-        const { email, password } = this.state;
-        firebaseApp
-            .auth()
-            .createUserWithEmailAndPassword(email, password)
+        firebaseApp.auth().signInWithEmailAndPassword(user.email, user.password)
             .then(user => {
-                console.log(user)
+                setUser({
+                    isLoggedIn: !user.isLoggedIn
+                })
+                console.log(user, 'You are sigIn!')
             })
             .catch(e => {
-                this.setState({ error: e.message })
-                console.log(e.message);
+                setUser({
+                    error: e.message
+                })
             })
     }
 
-    render() {
-        const { email, password } = this.state;
-        return (
+    const registerBtn = (event) => {
+        event.preventDefault();
+        firebaseApp.database().ref('users').push({
+            name: user.name,
+            email: user.email
+        });
+        firebaseApp.auth().createUserWithEmailAndPassword(user.email, user.password)
+            .then(user => {
+                console.log(user, 'Your account was created!')
+            })
+            .catch(e => {
+                setUser({
+                    error: e.message
+                })
+            })
+    }
+
+    return (
+        <div className="container">
             <div className="row">
-                <div className="col">
-                    <h1 className="text-center">Registration page</h1>
-                    <form onSubmit={this.onRegisterBtn}>
+                <div className="col-12">
+                    <h1 className="title text-center">Register/Login Page</h1>
+
+                    <form>
                         <div className="form-group">
-                            <label htmlFor="email">Email:</label>
+                            <label htmlFor="name">Name</label>
                             <input 
-                                type="text" 
-                                name="email" 
+                                type="text"
+                                name="name"
+                                value={user.name || ''}
                                 className="form-control"
-                                value={email}
-                                onChange={this.onChange}
-                                placeholder="Email" />
+                                onChange={handleChange}
+                                placeholder="Enter your name"/>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="email">Email</label>
+                            <input 
+                                type="text"
+                                name="email"
+                                value={user.email || ''}
+                                className="form-control"
+                                onChange={handleChange}
+                                placeholder="Enter your email"/>
                         </div>
                         <div className="form-group">
                             <label htmlFor="password">Password</label>
                             <input 
-                                type="password" 
-                                name="password" 
+                                type="text"
+                                name="password"
+                                value={user.password || ''}
                                 className="form-control"
-                                value={password}
-                                onChange={this.onChange}
-                                placeholder="Password" />
+                                onChange={handleChange}
+                                placeholder="Enter your password"/>
                         </div>
-                        <p className="error-message">{this.state.error}</p>
-                        <button 
-                            type="submit" 
-                            className="btn btn-primary">Register</button>
+                        <p>{user.error}</p>
+                        <button type="submit" className="btn btn-primary" onClick={registerBtn}>Register</button>
+                        <button type="submit" className="btn btn-primary" onClick={signInBtn}>Login</button>
                     </form>
                 </div>
             </div>
-        )
-    }
+        </div>
+    )
+  
 }
