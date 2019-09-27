@@ -1,48 +1,39 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { firebaseApp } from './Firebase';
+import { UserProps } from "../index"; 
 
-export default class List extends Component {
-        
-    constructor() {
-        super();
-        this.state = {
-            title: '',
-            description: '',
-            items: [],
-            error: ''
-        }
+export const List = () => {
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+    const [ products, setProduct ] = useState({UserProps});
 
-    handleChange(e) {
-        this.setState({
-            [e.target.name]: e.target.value
-        })
-    }
-
-    handleSubmit(e) {
-        e.preventDefault();
+    const handleSubmit = event => {
+        event.preventDefault();
         const itemsRef = firebaseApp.database().ref('items');
-        let { title, description } = this.state;
-        if(title.length > 0 && description.length > 0) {
+        if(products.title !== '' && products.description !== '') {
             itemsRef.push({
-                title: this.state.title,
-                description: this.state.description
+                title: products.title,
+                description: products.description
             });
-            this.setState({
+            // Clear Input field
+            setProduct({
                 title: '',
                 description: ''
             });
         } else {
-            this.setState({
+            setProduct({
                 error: 'is invalid'
             })
         }
     }
 
-    componentDidMount() {
+    const handleChange = event => {
+        setProduct({
+            ...products,
+            [event.target.name]: event.target.value
+        })
+    }
+
+    const componentDidMount = () => {
       const itemsRef = firebaseApp.database().ref('items');
       itemsRef.on('value', (snapshot) => {
         let items = snapshot.val();
@@ -52,42 +43,51 @@ export default class List extends Component {
             id: item,
             title: items[item].title,
             description: items[item].description
-          });
+          })
         }
-        this.setState({
+        setProduct({
           items: newState
-        });
-      });
+        })
+      })
     }
 
-    render() {
-        const { title, description, items } = this.state;
-        return (
+    return (
+        <div className="container">
             <div className="row">
                 <div className="col">
-                    <form onSubmit={this.handleSubmit}>
-                        <input 
-                            type="text" 
-                            name="title" 
-                            value={title}
-                            className="form-control"
-                            onChange={this.handleChange}
-                            placeholder="Title" />
-                        <textarea 
-                            name="description" 
-                            value={description}
-                            onChange={this.handleChange} 
-                            className="form-control"
-                            placeholder="Description"></textarea>
-                        <p>{this.state.error}</p>
+                    <form onSubmit={handleSubmit}>
+                        <div className="form-group">
+                            <label htmlFor="title">Name</label>
+                            <input 
+                                type="text" 
+                                name="title" 
+                                value={products.title}
+                                className="form-control"
+                                onChange={handleChange}
+                                placeholder="Title" />
+                        </div>
+                        
+                        <div className="form-group">
+                            <label htmlFor="description">Description</label>
+                            <textarea 
+                                name="description" 
+                                value={products.description}
+                                onChange={handleChange} 
+                                className="form-control"
+                                placeholder="Description"></textarea>
+                        </div>
+                        <div className="error-message">{products.error}</div>
                         <button 
                             type="submit" 
                             className="btn btn-primary">Add Product</button>
                     </form>
 
+                    <button type="button" className="btn btn-dark" onClick={componentDidMount}>Show List</button>
+
                     <div className="items-list">
+                        <h2 className="title text-center">Навантажувачі власного виробництва</h2>
                         <ul>
-                            {items.map((item) => {
+                            {products.items && products.items.map((item) => {
                                 return (
                                     <li key={item.id}>
                                         <h3>{item.title}</h3>
@@ -99,6 +99,6 @@ export default class List extends Component {
                     </div>
                 </div>
             </div>
-        )
-    }
+        </div>
+    )
 }
