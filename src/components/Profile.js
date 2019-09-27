@@ -7,16 +7,19 @@ export const Profile = () => {
 
     const isLogged = () => {
         firebaseApp.database().ref('users').on('value', snapshot => {
-            snapshot.forEach(item => {
-                var childData = item.val();
-                setUser({
-                    name: childData.name,
-                    email: childData.email
+            var childData = snapshot.val();
+            let newState = [];
+            for (let id in childData) {
+                newState.push({ 
+                    id,
+                    name: childData[id].name,
+                    email: childData[id].email
                 })
-                console.log(childData)
-            })
+            }
+            setUser({ newState })
         })
     }
+    console.log(user.newState)
 
     const signOut = () => {
         firebaseApp.auth().signOut();
@@ -28,8 +31,18 @@ export const Profile = () => {
             <h1 className="text-center">Profile Page</h1> 
             <button onClick={isLogged} className="btn btn-primary">IsLogged User</button>
             <button onClick={signOut} className="btn btn-primary">Signout</button>
-            <p>User name: {user.name}</p>
-            <p>User e-mail: {user.email}</p>
+            <div>
+                <ul>
+                    {user.newState && user.newState.map((item) => {
+                        return (
+                            <li key={item.id}>
+                                <h3>User name: {item.name}</h3>
+                                <p>User e-mail: {item.email}</p>
+                            </li>
+                        )
+                    })}
+                </ul>
+            </div>
         </div>
     )
 }
