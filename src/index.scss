@@ -1,0 +1,73 @@
+$bgColor: #f0f4f3;
+$redColor: #cc5154;
+$primaryColor: #3aaf9f;
+$grayColor: #333;
+$textColor: #636363;
+
+@font-face {
+    font-family: 'Adventure';
+    src: url(./fonts/Adventure.ttf)
+}
+
+@font-face {
+    font-family: 'Giger';
+    src: url(./fonts/Giger.ttf);
+}
+
+@font-face {
+    font-family: 'MonotypeCorsiva';
+    src: url(./fonts/MonotypeCorsiva.ttf);
+}
+
+body {
+    margin: 0;
+    // background: $bgColor;
+    font-family: 'Giger';
+    color: $textColor;
+}
+
+.title {
+    font: 50px 'MonotypeCorsiva';
+    color: $grayColor;
+}
+
+.btn {
+
+    margin-right: 15px; 
+
+    &.btn-primary {
+        background: $redColor;
+        border-color: $redColor;
+    }
+}
+
+.navbar {
+    background: linear-gradient(-45deg, #cc5154 30%, #fff 30%);
+    margin: 0 -15px;
+
+    ul.navbar-nav {
+        li {
+            a.nav-link {
+                font-size: 20px;
+                color: $grayColor;
+                padding: 0 15px;
+                text-transform: capitalize;
+
+                &.active {
+                    color: $redColor;
+                }
+            }
+        }
+    }
+
+    .navbar-brand {
+        span {
+            font: 22px 'MonotypeCorsiva';
+            color: #df0809;
+            position: relative;
+            top: 15px;
+            left: -36px;
+        }
+    }
+    
+}

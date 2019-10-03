@@ -9,7 +9,8 @@ export default class Navigation extends Component {
         return (
             <nav className="navbar navbar-expand-sm bg-light navbar-light">
                 <a className="navbar-brand" href="/">
-                    <img src={logo} width="120" className="logo" alt="logo" />
+                    <img src={logo} width="100" className="logo" alt="logo" />
+                    <span>Mikro-F</span>
                 </a>
 
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -22,7 +23,7 @@ export default class Navigation extends Component {
                             <NavLink activeClassName="active" className="nav-link" exact to='/'>Home</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink activeClassName="active" className="nav-link" to="/registration">Registration/Login</NavLink>
+                            <NavLink activeClassName="active" className="nav-link" to="/registration">Registration</NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink activeClassName="active" className="nav-link" to="/profile">Profile</NavLink>

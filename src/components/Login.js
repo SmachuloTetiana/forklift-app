@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import  { Redirect } from 'react-router-dom';
 import { firebaseApp } from './Firebase';
+import { UserProps } from "../index";
 
-const Login = () => {
-    const [ user, setUser ] = useState({
-        email: '',
-        password: '',
-        error: ''
-    });
+export const Login = () => {
+    const [ user, setUser ] = useState({UserProps});
 
     const handleSubmit = event => {
         event.preventDefault();
@@ -15,7 +12,9 @@ const Login = () => {
             .auth()
             .signInWithEmailAndPassword(user.email, user.password)
             .then(u => {
-                console.log(u);
+                setUser({
+                    isLoggedIn: !u.isLoggedIn
+                })
             })
             .catch(error => {
                 setUser({
@@ -33,7 +32,7 @@ const Login = () => {
 
     return (
         <div>
-            <h1>Login Form</h1> 
+            <h1 className="text-center">Login Form</h1> 
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="email">Email Adress</label>
@@ -57,11 +56,9 @@ const Login = () => {
                         placeholder="Enter password"
                         required  />
                 </div>
-                <p>{user.error}</p>
+                <div className="error-message">{user.error}</div>
                 <button type="submit" className="btn btn-primary">Login</button>
             </form>
         </div>
     )
 }
-
-export default Login;
