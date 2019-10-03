@@ -43,15 +43,17 @@ body {
 
 .navbar {
     background: linear-gradient(-45deg, #cc5154 30%, #fff 30%);
-    margin: 0 -15px;
+    margin: 0 -15px 50px -15px;
+    box-shadow: inset 0 -1px 0 $redColor;
 
     ul.navbar-nav {
         li {
             a.nav-link {
                 font-size: 20px;
+                font-weight: 600;
                 color: $grayColor;
                 padding: 0 15px;
-                text-transform: capitalize;
+                text-transform: uppercase;
 
                 &.active {
                     color: $redColor;
@@ -61,12 +63,15 @@ body {
     }
 
     .navbar-brand {
-        span {
-            font: 22px 'MonotypeCorsiva';
+        span {    
+            font: 16px 'Giger';
+            font-weight: 600;
+            text-transform: uppercase;
             color: #df0809;
             position: relative;
             top: 15px;
             left: -36px;
+            letter-spacing: .06em;
         }
     }
     
