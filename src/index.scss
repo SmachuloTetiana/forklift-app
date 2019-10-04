@@ -3,6 +3,7 @@ $redColor: #cc5154;
 $primaryColor: #3aaf9f;
 $grayColor: #333;
 $textColor: #636363;
+$whiteColor: #FFF;
 
 @font-face {
     font-family: 'Adventure';
@@ -38,6 +39,10 @@ body {
     &.btn-primary {
         background: $redColor;
         border-color: $redColor;
+    }
+
+    &.btn-dark {
+        margin-top: 15px;
     }
 }
 
@@ -75,4 +80,57 @@ body {
         }
     }
     
+}
+
+.Account {
+    .col-6 {
+        padding: 35px;
+    }
+
+    .account-welcome-block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: $redColor;
+
+        .title, .subtitle {
+            color: $whiteColor;
+        }
+
+        .title {
+            font-size: 55px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+        }
+    }
+}
+
+.App-link {
+    color: $redColor;
+
+    &:hover {
+        color: $redColor;
+    }
+}
+
+.Items-list {
+    ul {
+        padding: 0;
+
+        li {
+            list-style: none;
+            position: relative;
+
+            span {
+                background: linear-gradient(-45deg, #fff 25%, #cc5154 25%);
+                color: #fff;
+                font-size: 25px;
+                padding: 2px 50px 2px 15px;
+                text-transform: uppercase;
+            }
+        }
+    }
 }

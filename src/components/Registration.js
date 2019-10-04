@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { firebaseApp } from './Firebase';
 import { UserProps } from "../index";
-import { Profile } from './Profile';
 import axios from 'axios';
 
 export const Registration = () => {
 
-    const [ user, setUser ] = useState({UserProps});
+    const [ user, setUser ] = useState({
+        UserProps,
+        shown: false
+    });
 
     const handleChange = (event) => {
         setUser({
@@ -56,38 +58,68 @@ export const Registration = () => {
         });
     }
 
-    const url = firebaseApp.database().ref('users');
-    axios
-        .get('https://forklift-bb1ea.firebaseio.com/users')
-        .then(res => {
-            const newArr = [];
-            for(const key in res.data) {
-                newArr.push({...res.data[key]})
-            }
-            setUser({
-                newArr
-            })
+    const showHideBlock = event => {
+        event.preventDefault();
+        setUser({
+            shown: true
         })
-        .catch(error => {
-            console.log(error);
-        })
-    console.log(user.newArr)
-
-    // if(user.isLoggedIn === true) {
-    //     return (
-    //         <Profile name={user.name} email={user.email} /> 
-    //     )
-    // } else {
-    //     console.log('You are logout')
-    // } 
+     }
 
     return (
-        <div className="container">
+        <div className="container Account">
             <div className="row">
-                <div className="col-12">
-                    <h1 className="title text-center">Register Page</h1>
+                <div className="col-6 account-welcome-block">
+                    <h1 className="title text-center">Welcome!</h1>
+                    <p className="subtitle">Enter your personal details and start journey with us</p>
+                </div>
 
-                    <form>
+                <div className="col-6">
+                    <form className={user.shown ? 'Account__login-user d-none' : 'Account__login-user d-block'}>                        
+                        <h1 className="title text-center">Login</h1>
+
+                        <div className="form-group">
+                            <label htmlFor="email">Email</label>
+                            <input 
+                                type="text"
+                                name="email"
+                                value={user.email || ''}
+                                className="form-control"
+                                onChange={handleChange}
+                                placeholder="Enter your email"/>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="password">Password</label>
+                            <input 
+                                type="text"
+                                name="password"
+                                value={user.password || ''}
+                                className="form-control"
+                                onChange={handleChange}
+                                placeholder="Enter your password"/>
+                        </div>
+                        <p>{user.error}</p>
+                        <button 
+                            type="submit" 
+                            className="btn btn-primary" 
+                            onClick={signInBtn}>
+                                Login
+                        </button>
+                        <button 
+                            type="button" 
+                            className="btn btn-primary" 
+                            onClick={logOutBtn} 
+                            disabled={!user.isLoggedIn}>
+                                LogOut
+                        </button>
+                        <a
+                            className="App-link"
+                            onClick={showHideBlock}
+                            href="">Create an account</a>
+                    </form>
+                    
+                    <form className={user.shown ? 'Account__create-user d-block' : "Account__create-user d-none"}>      
+                        <h1 className="title text-center">Register</h1>
+
                         <div className="form-group">
                             <label htmlFor="name">Name</label>
                             <input 
@@ -119,9 +151,12 @@ export const Registration = () => {
                                 placeholder="Enter your password"/>
                         </div>
                         <p>{user.error}</p>
-                        <button type="submit" className="btn btn-primary" onClick={registerBtn}>Register</button>
-                        <button type="submit" className="btn btn-primary" onClick={signInBtn}>Login</button>
-                        <button type="submit" className="btn btn-primary" onClick={logOutBtn}>LogOut</button>
+                        <button 
+                            type="submit" 
+                            className="btn btn-primary" 
+                            onClick={registerBtn}>
+                                Register
+                        </button>
                     </form>
                 </div>
             </div>

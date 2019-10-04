@@ -84,13 +84,13 @@ export const List = () => {
 
                     <button type="button" className="btn btn-dark" onClick={componentDidMount}>Show List</button>
 
-                    <div className="items-list">
+                    <div className="Items-list">
                         <h2 className="title text-center">Навантажувачі власного виробництва</h2>
                         <ul>
                             {products.items && products.items.map((item) => {
                                 return (
                                     <li key={item.id}>
-                                        <h3>{item.title}</h3>
+                                        <span>{item.title}</span>
                                         <p>{item.description}</p>
                                     </li>
                                 )
