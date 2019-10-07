@@ -1,10 +1,21 @@
 import React, { Component } from 'react';
 
 import { NavLink } from 'react-router-dom';
+import { UserProps } from './index';
 
 import logo from './images/logo.gif';
 
 export default class Navigation extends Component {
+
+    constructor() {
+        super();
+        this.state = {
+            ...UserProps
+        }
+    }
+    
+
+
     render() {
         return (
             <nav className="navbar navbar-expand-sm bg-light navbar-light">

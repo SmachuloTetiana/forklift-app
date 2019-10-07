@@ -10,8 +10,8 @@ import { Route, BrowserRouter as Router } from 'react-router-dom';
 import Navigation from './Navigation';
 import App from './App';
 import { Registration } from './components/Registration';
-import { Profile } from './components/Profile';
-import { List } from './components/List';
+import Profile from './components/Profile';
+import List from './components/List';
 
 export const UserProps = {
     name: '',
@@ -27,7 +27,7 @@ ReactDOM.render(
             <Navigation />
 
             <Route exact path='/' component={App} />
-            <Route path='/registration' component={Registration} />
+            <Route path='/registration' component={Registration} />            
             <Route path="/profile" component={Profile} />
             <Route path="/list" component={List} />
         </div>

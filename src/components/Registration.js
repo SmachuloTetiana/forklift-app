@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { firebaseApp } from './Firebase';
 import { UserProps } from "../index";
-import axios from 'axios';
 
 export const Registration = () => {
 
@@ -69,8 +68,10 @@ export const Registration = () => {
         <div className="container Account">
             <div className="row">
                 <div className="col-6 account-welcome-block">
-                    <h1 className="title text-center">Welcome!</h1>
-                    <p className="subtitle">Enter your personal details and start journey with us</p>
+                    <div className="account-welcome-block__container text-center">
+                        <h1 className="title">Welcome!</h1>
+                        <p className="subtitle">Enter your personal details and start journey with us...</p>
+                    </div>
                 </div>
 
                 <div className="col-6">
@@ -101,7 +102,8 @@ export const Registration = () => {
                         <button 
                             type="submit" 
                             className="btn btn-primary" 
-                            onClick={signInBtn}>
+                            onClick={signInBtn}
+                            disabled={user.isLoggedIn}>
                                 Login
                         </button>
                         <button 
